@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}hello baby{% endblock %}
+{% block content %}
+<h1>This is User page</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if massages %}
+            {% for m in messages %}
+                <p> {{m}} </p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div style="margin-left: 50px"> <!--- margin-left: 40px cách lề trái 40px -->
+        <form action="#" method="post">
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Enter email..." value="{{email if email}}"></input>
+            <button ,style="color:rgb(255, 47, 109)", type="submit">Login</button>   
+            <input type="name" name="name" placeholder="Enter name..." value="{{user if user}}"></input>
+            <button ,style="color:rgb(255, 47, 109)", type="submit">Delete</button>   
+        </form>
+    </div>
+{% endblock %}
