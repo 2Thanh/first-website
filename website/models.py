@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     comments=db.relationship('Comment',backref='user',passive_deletes=True)
     likes=db.relationship('Like',backref='user',passive_deletes=True)
     dislike=db.relationship('Dislike',backref='user',passive_deletes=True)
+    images=db.relationship ('Images',backref='user',passive_deletes=True)
     #backref là để lấy được user trong post
     #passive_delete là để khi xóa user thì xóa cả post của user đó
     #POST là để lấy được user khi post
@@ -28,6 +29,7 @@ class Post(db.Model):
     comments=db.relationship('Comment',backref='post',passive_deletes=True)
     likes= db.relationship('Like',backref='post',passive_deletes=True)
     dislike=db.relationship('Dislike',backref='post',passive_deletes=True)
+
     # nullable là để nếu user không có bài viết thì không báo lỗi
     #ondelete là để xóa bài viết của bang User thì xóa cả bang Post của User đó
 class Comment(db.Model):
@@ -46,4 +48,8 @@ class Dislike(db.Model):
     date_created = db.Column(db.DateTime(timezone=True), default=datetime.now())
     author=db.Column(db.Integer, db.ForeignKey("user.id",ondelete="CASCADE"), nullable=False)
     post_id=db.Column(db.Integer, db.ForeignKey("post.id",ondelete="CASCADE"), nullable=False)
-    
+class Images(db.Model):
+    id= db.Column(db.Integer,primary_key=True)
+    image=db.Column(db.String(200),nullable=False)
+    date_created = db.Column(db.DateTime(timezone=True), default=datetime.now())
+    author=db.Column(db.Integer, db.ForeignKey("user.id",ondelete="CASCADE"), nullable=False)
