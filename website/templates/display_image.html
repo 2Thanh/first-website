@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<title>Python Flask File Upload Example</title>
+<h2>Select a file to upload</h2>
+{% if filename %}
+<div>
+	<img src="{{ url_for('static', filename='/uploads/' + filename) }}" >
+{% endif %}
+<form method="post" action="/display_image/{{user.id}}" enctype="multipart/form-data">
+<dl>
+	<p>
+		<input type="file" name="file" autocomplete="off" required>
+	</p>
+</dl>
+<p>
+	<input type="submit" value="Submit">
+</p>
+</form>
+{% endblock %}

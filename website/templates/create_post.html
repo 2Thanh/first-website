@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+<!doctype html>
+{%block content %}
+    <form method="POST">
+        <textarea name="text" id="text" class="form-control"></textarea>
+        <br />
+        <div align="center">
+            <button class="btn btn-primary" type="submit">Post</button>
+        </div>
+    </form>
+{% endblock %}

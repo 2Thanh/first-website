@@ -1,0 +1,14 @@
+{% extends "base.html" %}   
+{% block title %}{% endblock %}
+{% block content %}
+<div id="imgs" >
+    {% for img in imgs %} 
+            <div class="card-body" >
+                <img src="{{ url_for('static', filename='/uploads/'+ img.image)}} " width=400 height=400 >
+                <br/>
+            </div>
+                
+    {% endfor %}
+</div>
+
+{% endblock %}

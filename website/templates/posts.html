@@ -1,0 +1,56 @@
+{% extends "base.html" %}   
+{% block title %}{% endblock %}
+{% block content %}
+<h1 align="center">Posts </h1>
+<div id="posts">
+    {% for post in posts %} 
+        <div class="card border-dark">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <a href="/posts/{{post.user.username}}">{{post.user.username}}</a>
+                {% if user.id == post.author %}
+                <div class="dropdown">
+                    <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Setting</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              
+                      <a class="dropdown-item" href="/delete_posts/{{post.id}}">Delete</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <div class="card-text">{{post.text}}</div>
+                <br/>
+                <div class="collapse" id="comments-{{post.id}}" >
+                    <div class="card">
+                        <div class="card-body" id="#comments-{{post.id}}">
+                            {% for comment in post.comments %}
+                            <div class="d-flex justify-content-between align-items-center ">
+                                <div>
+                                    <a href="/posts/{{comment.user.username}}">{{comment.user.username}}</a>:{{comment.text}}
+                                </div>  
+                                <div 
+                                    <small class="text-muted"> {{comment.date_created}}></small>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <p class="card-text">
+                    {% if post.comments|length > 0 %}
+                    <a class="btn btn-primary"data-toggle="collapse" href="#comments-{{post.id}}" role="button"  aria-expanded="false" aria-controls="collapseExample">
+                        View {{post.comments|length}} Comments 
+                    </a>
+                    {% else %}
+                    <small class="text-muted">No Comments</small>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer text-muted">{{post.user.date_created}}</div>
+        </div>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

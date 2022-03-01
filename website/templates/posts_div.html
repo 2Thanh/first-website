@@ -1,0 +1,79 @@
+{% extends "base.html" %}   
+{% block title %}{% endblock %}
+{% block content %}
+<div id="posts" >
+    {% for post in posts %} 
+        <div class="card border-dark" style="background-color: rgb(184, 176, 77);">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <a href="/posts/{{post.user.username}}">{{post.user.username}}</a>
+                <div>
+                    {{post.likes|length}}
+                    <a href="like_post/{{post.id}}"><i class="far fa-thumbs-up"></i></a>
+                    {{post.dislike|length}}
+                    <a href="dislike/{{post.id}}"><i class="far fa-thumbs-down"></i></a>
+                    
+                    {% if user.id == post.author %}
+                    <div class="dropdown">
+                        <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Setting</button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
+                        <a class="dropdown-item" href="/delete_posts/{{post.id}}">Delete</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body" >
+                <div id="imgs">
+                    <div class="card-text">{{post.text}}</div>
+                    {% for img in imgs %}
+                        {% if post.text == img.image %}
+                            <img src="{{ url_for('static', filename='/uploads/'+ img.image)}} " width=400 height=400 >
+                            
+                            <br/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="collapse" id="comments-{{post.id}}" >
+                    <div class="card">
+                        <div class="card-body" id="#comments-{{post.id}}">
+                            {% for comment in post.comments %}
+                            <div class="d-flex justify-content-between align-items-center ">
+                                <div>
+                                    <a href="/posts/{{comment.user.username}}">{{comment.user.username}}</a>:{{comment.text}}
+                                
+                                    <small class="text-muted">date-created: {{comment.date_created}}></small>
+                                </div>
+                                {% if comment.author== user.id %}
+                                <a href="/delete_comments/{{comment.id}}">Delete</a>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <p class="card-text">
+                    {% if post.comments|length > 0 %}
+                    <a class="btn btn-primary"data-toggle="collapse" href="#comments-{{post.id}}" role="button"  aria-expanded="false" aria-controls="collapseExample">
+                        View {{post.comments|length}} Comments 
+                    </a>
+                    
+
+                
+                    {% else %}
+                    <small class="text-muted">No Comments</small>
+                    {% endif %}
+                </p>
+                <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
+                    <input type="text" id="text" name="text" class="form-control" placeholder="comment somthing!"></input> 
+                    <button type="submit" class="btn btn-primary">Comment</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">{{post.user.date_created}}</div>
+        </div>
+
+    {% endfor %}
+</div>
+
+{% endblock %}
